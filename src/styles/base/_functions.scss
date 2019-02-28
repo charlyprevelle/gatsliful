@@ -1,0 +1,239 @@
+
+
+@mixin beforeElement($content, $color:$black){
+	&:before{
+		content:$content;
+		@extend %circularBook;
+		@include fontsize(10);
+		display:block;
+		color:$color;
+		letter-spacing: 0.5rem;
+		text-transform:uppercase;
+		text-align:center;
+		margin:2rem auto;
+	}
+}
+
+/* ---------------------------------------------------
+///////////////////// FONT FACE ///////////////////////
+---------------------------------------------------- */
+
+@mixin lineMove($width, $startOrigin, $endOrigin, $margin, $duration:.7s, $background:null, $cubicBezier:'.75,.23,.24,.76', $type:'hover'){
+	position:relative;
+	overflow:hidden;
+
+	&:after{
+		content:'';
+		position:absolute;
+		bottom:0;
+		right:0;
+		width: $width;
+		margin:$margin;
+		height: 1px;
+		background-color: $background;
+		transform: scale3d(0,1,1);
+		transform-origin: $startOrigin;
+		transition: transform;
+		transition-duration: $duration;
+		transition-timing-function: cubic-bezier($cubicBezier);
+	}
+
+	@if $type == 'hover' {
+		&:hover{
+			&:before{ bottom:0; }
+			&:after{
+				transform: scale3d(1,1,1);
+				transform-origin: $endOrigin;
+			}
+		}
+	}
+
+	@if $type == 'focus' {
+		&:focus,
+		&:focus-within{
+			&:before{ bottom:0; }
+			&:after{
+				transform: scale3d(1,1,1);
+				transform-origin: $endOrigin;
+			}
+		}
+	}
+}
+
+@mixin rotateElement($color:$white, $align:center){
+	color:$color;
+	text-align:$align;
+	padding-bottom:1rem;
+	display:block;
+	text-transform: uppercase;
+	@extend %circularBook;
+	@include fontsize(10);
+	letter-spacing: .5rem;
+}
+
+
+@mixin aspect-ratio($width, $height) {
+    position: relative;
+    &:before{
+		content: " ";
+        display: block;
+        width: 100%;
+        padding-top: ($height / $width) * 100%;
+    }
+
+    > .content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}
+
+
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: otf eot ttf svg) {
+	$src: null;
+
+	$extmods: (
+		eot: "?",
+		svg: "#" + str-replace($name, " ", "_")
+	);
+
+	$formats: (
+		otf: "opentype",
+		ttf: "truetype"
+	);
+
+	@each $ext in $exts {
+		$extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+		$format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+		$src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
+	}
+
+	@font-face {
+		font-family: quote($name);
+		font-style: $style;
+		font-weight: $weight;
+		src: $src;
+	}
+}
+
+@mixin fontsize($size) {
+	font-size: $size * 1px;
+	font-size: $size * 0.1rem;
+}
+
+/* ---------------------------------------------------
+/////////////////////// FLEX /////////////////////////
+---------------------------------------------------- */
+
+@mixin last-row-flexbox($num-columns, $width-items){
+	$filled-space: $width-items * $num-columns;
+	$margin: calc((100% - #{$filled-space}) / (#{$num-columns} - 1));
+	$num-cols-1 : $num-columns - 1;
+	width: $width-items;
+	&:nth-child(#{$num-columns}n+1):nth-last-child(-n+#{$num-cols-1}) ~ & { margin-left: $margin; }
+
+	@for $i from 1 through $num-columns - 2 {
+		$index: $num-columns - $i;
+		&:nth-child(#{$num-columns}n+#{$index}):last-child{ margin-right: auto; }
+	}
+}
+
+@mixin flexbox($flex: flex, $h: null, $v: null, $flow: null, $dir: null){
+	display: $flex;
+	justify-content: $h;
+	flex-flow: $flow;
+	align-items: $v;
+	flex-direction: $dir;
+}
+
+/* ---------------------------------------------------
+////////////////// Width & Height ////////////////////
+---------------------------------------------------- */
+
+@mixin sizebase($width:100%, $height:100%){
+	width:$width;
+	height:$height;
+}
+
+/* ---------------------------------------------------
+////////////////// LINE SEPARATOR ////////////////////
+---------------------------------------------------- */
+
+@mixin beforeline($position, $width, $height, $top, $left){
+	content:'';
+	position:$position;
+	top: $top;
+	left: $left;
+	width: $width;
+	height: $height;
+	background-repeat:no-repeat;
+}
+
+/* ---------------------------------------------------
+///////////////////// ANIMATION ///////////////////////
+---------------------------------------------------- */
+@mixin keyframe($animName) {
+    @-webkit-keyframes #{$animName} {
+        @content;
+    }
+
+    @-moz-keyframes #{$animName} {
+        @content;
+    }
+
+    @-o-keyframes #{$animName} {
+        @content;
+    }
+
+    @keyframes #{$animName} {
+        @content;
+    }
+}
+
+
+/* ---------------------------------------------------
+//////////////////// RESPONSIVE //////////////////////
+---------------------------------------------------- */
+@mixin breakpoint($class:null, $customSize:null, $format:portrait){
+	@if $class == xs {
+		@media screen and (max-width: 420px) { @content; }
+	}
+	
+	@else if $class == sm {
+		@media screen and (max-width: 768px) { @content; }
+	}
+
+	@else if $class == md {
+		@media screen and (max-width: 1072px) { @content; }
+	}
+	
+	@else if $class == lg{
+		@media screen and (max-width: 1366px) { @content; }
+	}
+	
+	@else if ($customSize){
+		@media screen and (max-width: $customSize) { @content; }
+	}
+	
+	@else if ($format == landscape, $customSize){
+		@media (orientation: landscape) and (max-height: 812px){ @content; }
+	}
+	
+	@else {
+		@warn "Breakpoint mixin supports: xs, sm, md, lg";
+	}
+}
+
+
+/* ---------------------------------------------------
+////////////////////// GENERIC ///////////////////////
+---------------------------------------------------- */
+
+// @mixin padding($pt:0){
+// 	padding-top:$pt;
+// 	padding-left:$pl;
+// 	padding-right:$pr;
+// 	padding-bottom:$pb;
+// }

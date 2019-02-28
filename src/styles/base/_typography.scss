@@ -1,0 +1,13 @@
+/*--------------------------------------------
+Fonts
+---------------------------------------------*/
+
+// @include font-face(circularBook, '../../assets/fonts/CircularStd-Book');
+
+// %circularBook{ font-family: "circularBook"; font-weight:300; }
+
+@mixin fontsize($size) {
+	font-size: $size * 1px;
+	font-size: $size * 0.1rem;
+}
+

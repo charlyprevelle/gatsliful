@@ -1,0 +1,31 @@
+/*--------------------------------------------
+Settings for animate-sass
+---------------------------------------------*/
+
+$use-fadeIn: true;
+$use-fadeOut: true;
+$use-fadeInUp: true;
+$use-slideInUp: true;
+$use-pmFadeInUp: true;
+
+//$base-duration: 0.6s;
+
+/*--------------------------------------------
+Global Colors
+---------------------------------------------*/
+
+// Global
+$fblack: #1B233A;
+$black: #2b344e;
+$gray: rgba(#2b344e, 0.5);
+$white: #fff;
+$blue: #0000ff;
+$negative: #d4cbb1;
+$red:#CB4A4A;
+$green:#8ADD56;
+
+
+// Line gradient
+$lineblue : #e8f9ff;
+$linepurple : #e1dfff;
+$linepink : #deceff;
