@@ -1,3 +1,14 @@
 .header{
-	background-color:$blue;
+   background-color: $green;
+   height:6rem;
+   padding:0 2rem;
+   color:$white;
+   @include flexbox($h:space-between, $v:center);
+
+   & li{
+      display:inline-block;
+      margin-right:2rem;
+   }
+
+   & li a{ color: $white; text-decoration:none; }
 }

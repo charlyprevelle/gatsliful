@@ -6,7 +6,7 @@ import Container from '../layouts/container'
 
 export default ({ data }) =>
   <Container>
-    <h1>About</h1>
+    <h2>About</h2>
     <p>{data.allFile.edges[0].node.prettySize}</p>
   </Container>
 
