@@ -12,6 +12,7 @@
     "gatsby-plugin-react-helmet": "^3.0.7",
     "gatsby-plugin-sass": "^2.0.10",
     "gatsby-plugin-sharp": "^2.0.22",
+    "gatsby-source-contentful": "^2.0.33",
     "gatsby-transformer-sharp": "^2.1.14",
     "node-sass": "^4.11.0",
     "prop-types": "^15.7.2",

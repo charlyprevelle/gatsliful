@@ -5,26 +5,32 @@ import { graphql } from 'gatsby'
 import Container from '../layouts/container'
 
 export default ({ data }) => {
-   const content = data.markdownRemark
+   
+   const contentful = data.contentfulPost
+   const {
+      path,
+      title,
+      content
+   } = contentful
 
    return(
       <Container>
-         <h2>{content.frontmatter.title}</h2>
-         <div dangerouslySetInnerHTML={{ __html: content.html }} />
+         <h2>{title}</h2>
+         <div dangerouslySetInnerHTML={{ __html: content.childMarkdownRemark.html }} />
       </Container>
    )
 }
 
 export const query = graphql`
-   query PageQuery($slug: String!) { 
-      markdownRemark(fields: { slug: { eq: $slug } }) {
-         html
-         frontmatter{
-            title
+   query PageQuery($path: String!){ 
+      contentfulPost(path: { eq: $path }) {
+         title
+         content{
+            childMarkdownRemark {
+               html
+            }
          }
-         internal {
-            content
-         }
+         path
       }
    }
 `

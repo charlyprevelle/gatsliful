@@ -1,6 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import SEO from "../components/seo"
+import SEO from "../utils/seo"
 
 // layout
 import Container from '../layouts/container'
@@ -17,26 +17,28 @@ export default ({ data }) =>
       <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
       <h2>Some weird news</h2>
       { 
-         data.allMarkdownRemark.edges.map(({ node }, index) => {
-            return <Article key={index} {...node} /> 
-         }) 
+        // console.log(data)
+        data.allContentfulPost.edges.map(({ node }, index) => {
+          return <Article key={index} {...node} /> 
+        })
       }
    </Container>
 
 
 export const query = graphql`
   query IndexQuery {
-    allMarkdownRemark {
+    allContentfulPost {
       edges {
         node {
-          fields {
-            slug
-          }
-          id
-          frontmatter {
             title
-            date
-          }
+            content{
+               childMarkdownRemark {
+                  internal {
+                     content
+                  }
+               }
+            }
+            path
         }
       }
     }
