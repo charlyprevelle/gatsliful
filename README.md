@@ -1,2 +1,2 @@
-
-https://charly-gatslify.netlify.com/
+### Gatsby + Contentful + Netlify
+https://gatsliful.netlify.com/
