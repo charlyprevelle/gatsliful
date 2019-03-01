@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Gatslify',
+    title: 'Gatsliful : Gatsby + Contentful + Netlify',
     description: ``,
     author: ``,
   },
